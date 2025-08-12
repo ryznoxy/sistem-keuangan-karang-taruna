@@ -21,12 +21,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tambah_pengeluaran'])
   }
 }
 
-//buat edit
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_pengeluaran'])) {
+  $id = mysqli_real_escape_string($conn, $_POST["id"]);
+  $jenis = mysqli_real_escape_string($conn, $_POST["jenis"]);
+  $tanggal = mysqli_real_escape_string($conn, $_POST["tanggal"]);
+  $jumlah = mysqli_real_escape_string($conn, $_POST["jumlah"]);
+  $keterangan = mysqli_real_escape_string($conn, $_POST["keterangan"] ?? "");
+
+  $query = "UPDATE pengeluaran SET jenis_pengeluaran='$jenis', tanggal_pengeluaran='$tanggal', jumlah='$jumlah', keterangan='$keterangan' WHERE id_pengeluaran='$id'";
+
+  if (mysqli_query($conn, $query)) {
+    $success = "Pengeluaran berhasil diubah";
+  } else {
+    $error = "Gagal mengubah pengeluaran: " . mysqli_error($conn);
+  }
+}
 
 if (isset($_GET['hapus'])) {
   $id = intval($_GET['hapus']);
   $query = "DELETE FROM pengeluaran WHERE id_pengeluaran = $id";
-
+ 
   if (mysqli_query($conn, $query)) {
     $success = "Pengeluaran berhasil dihapus";
   } else {
@@ -38,7 +52,56 @@ $bulan = isset($_GET['bulan']) ? $_GET['bulan'] : date('Y-m');
 ?>
 
 
-//buat modal
+<div class="h-[100dvh] w-[100dvw] fixed top-0 left-0 right-0 z-10 bg-gray-700 bg-opacity-50 <?= isset($_GET['edit'])  ? '' : 'hidden' ?> <?= isset($success) || isset($error) ? 'hidden' : '' ?>">
+  <div class="flex justify-center items-center my-auto h-full">
+    <div class="w-[440px] bg-white p-5 rounded-xl border">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold">Edit Pengeluaran</h2>
+        <a href="pengeluaran.php" class="text-xl font-bold">✕</a>
+      </div>
+      <div>
+        <form method="post">
+          <?php
+          if (isset($_GET['edit'])) {
+            $id = intval($_GET['edit']);
+            $query = "SELECT * FROM pengeluaran WHERE id_pengeluaran = $id";
+            $result = mysqli_query($conn, $query);
+            $pengeluaran = mysqli_fetch_assoc($result);
+          }
+          ?>
+
+          <input type="hidden" name="id" id="id" required value="<?= isset($pengeluaran) ? $pengeluaran['id_pengeluaran'] : '' ?>">
+          <div class="mb-4">
+            <label for="tanggal" class="block text-sm font-medium text-gray-700 mb-1">Tanggal</label>
+            <input type="date" id="tanggal" name="tanggal" required class="w-full px-3 py-2 border border-gray-300 rounded-md" value="<?= isset($pengeluaran) ? date('Y-m-d', strtotime($pengeluaran['tanggal_pengeluaran'])) : date('Y-m-d') ?>">
+          </div>
+          <div class="mb-4">
+            <label for="jenis" class="block text-sm font-medium text-gray-700 mb-1">Jenis Pengeluaran</label>
+            <select id="jenis" name="jenis" required class="w-full px-3 py-2 border border-gray-300 rounded-md">
+              <option value="">Pilih Jenis</option>
+              <option value="operasional" <?= isset($pengeluaran) && $pengeluaran['jenis_pengeluaran'] == 'operasional' ? 'selected' : '' ?>>Operasional</option>
+              <option value="konsumsi" <?= isset($pengeluaran) && $pengeluaran['jenis_pengeluaran'] == 'konsumsi' ? 'selected' : '' ?>>Konsumsi</option>
+              <option value="kegiatan" <?= isset($pengeluaran) && $pengeluaran['jenis_pengeluaran'] == 'kegiatan' ? 'selected' : '' ?>>Kegiatan</option>
+              <option value="lainnya" <?= isset($pengeluaran) && $pengeluaran['jenis_pengeluaran'] == 'lainnya' ? 'selected' : '' ?>>Lainnya</option>
+            </select>
+          </div>
+          <div class="mb-4">
+            <label for="jumlah" class="block text-sm font-medium text-gray-700 mb-1">Jumlah (Rp)</label>
+            <input type="text" id="jumlah" name="jumlah" required class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="0,00" value="<?= isset($pengeluaran) ? $pengeluaran['jumlah'] : '' ?>">
+          </div>
+          <div class="mb-6">
+            <label for="keterangan" class="block text-sm font-medium text-gray-700 mb-1">Keterangan</label>
+            <input type="text" id="keterangan" name="keterangan" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Keterangan tambahan" value="<?= isset($pengeluaran) ? $pengeluaran['keterangan'] : '' ?>">
+          </div>
+
+          <button type="submit" name="update_pengeluaran" class="w-full bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-md">
+            Simpan Perubahan
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <div class="flex justify-between items-center mb-6">
