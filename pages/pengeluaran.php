@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_pengeluaran'])
 if (isset($_GET['hapus'])) {
   $id = intval($_GET['hapus']);
   $query = "DELETE FROM pengeluaran WHERE id_pengeluaran = $id";
- 
+
   if (mysqli_query($conn, $query)) {
     $success = "Pengeluaran berhasil dihapus";
   } else {
@@ -203,7 +203,7 @@ $bulan = isset($_GET['bulan']) ? $_GET['bulan'] : date('Y-m');
               <a href="?edit=<?= $row['id_pengeluaran'] ?>"
                 class="text-blue-600 hover:text-blue-800 text-sm font-medium">Edit</a>
               <a href="?hapus=<?= $row['id_pengeluaran'] ?>"
-                onclick="return confirm('Apakah Anda yakin ingin menghapus pemasukan ini?')"
+                onclick="return confirm('Apakah Anda yakin ingin menghapus pengeluaran ini?')"
                 class="text-red-600 hover:text-red-800 text-sm font-medium">Hapus</a>
             </td>
           </tr>
