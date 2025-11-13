@@ -57,6 +57,13 @@ $result_transaksi = mysqli_query($conn, $query_transaksi);
       </p>
     </div>
   </div>
+
+  <div>
+    <a href="export_excel.php?bulan=<?= $bulan ?>"
+      class="bg-green-600 text-sm text-white px-4 py-2 rounded-md hover:bg-green-700 transition-all duration-200 ease-in-out">
+      Ekspor ke Excel
+    </a>
+  </div>
 </div>
 
 <div class="bg-white p-6 rounded-lg shadow border mb-4  ">

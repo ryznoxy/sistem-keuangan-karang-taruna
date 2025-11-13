@@ -37,9 +37,10 @@ $role = getUserRole();
                 <li><a href="riwayat.php" class="block py-3 px-2 border rounded-md text-sm hover:bg-gray-200 <?php if (strpos($path, 'riwayat.php') !== false) echo 'bg-gray-800 text-white hover:bg-gray-900'; ?> transition-all ease-in-out">Riwayat</a></li>
                 <?php if ($role == 'admin'): ?>
                   <li><a href="user.php" class="block py-3 px-2 border rounded-md text-sm hover:bg-gray-200 <?php if (strpos($path, 'user.php') !== false) echo 'bg-gray-800 text-white hover:bg-gray-900'; ?> transition-all ease-in-out">Akun User</a></li>
+                  <li><a href="auditlog.php" class="block py-3 px-2 border rounded-md text-sm hover:bg-gray-200 <?php if (strpos($path, 'auditlog.php') !== false) echo 'bg-gray-800 text-white hover:bg-gray-900'; ?> transition-all ease-in-out">Audit Log</a></li>
                 <?php endif; ?>
               <?php else: ?>
-                <li><a href="dashboard.php" class="block py-3 px-2 border rounded-md text-sm hover:bg-gray-200 <?php if (strpos($path, 'dashboard.php') !== false) echo 'bg-gray-800 text-white hover:bg-gray-900'; ?> transition-all ease-in-out">Dashboard</a></li>
+                <li><a href="dashboard.php" class="block py-3 px-2 border rounded-md text-sm hover:bg-gray-200 <?php if (strpos($path, 'dashboard.p hp') !== false) echo 'bg-gray-800 text-white hover:bg-gray-900'; ?> transition-all ease-in-out">Dashboard</a></li>
                 <li><a href="laporan.php" class="block py-3 px-2 border rounded-md text-sm hover:bg-gray-200 <?php if (strpos($path, 'laporan.php') !== false) echo 'bg-gray-800 text-white hover:bg-gray-900'; ?> transition-all ease-in-out">Laporan</a></li>
                 <li><a href="riwayat.php" class="block py-3 px-2 border rounded-md text-sm hover:bg-gray-200 <?php if (strpos($path, 'riwayat.php') !== false) echo 'bg-gray-800 text-white hover:bg-gray-900'; ?> transition-all ease-in-out">Riwayat</a></li>
               <?php endif; ?>

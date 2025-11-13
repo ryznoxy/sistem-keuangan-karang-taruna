@@ -16,6 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tambah_pengeluaran'])
 
   if (mysqli_query($conn, $query)) {
     $success = "Pengeluaran berhasil ditambahkan";
+
+    mysqli_query($conn, "INSERT INTO auditlog (user_id, aksi, deskripsi) VALUES ('$user_id', 'tambah_pengeluaran', 'Menambahkan pengeluaran sebesar Rp " . number_format($jumlah, 2, ',', '.') . " untuk jenis $jenis pada tanggal $tanggal')");
   } else {
     $error = "Gagal menambahkan pengeluaran: " . mysqli_error($conn);
   }
@@ -32,6 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_pengeluaran'])
 
   if (mysqli_query($conn, $query)) {
     $success = "Pengeluaran berhasil diubah";
+
+    mysqli_query($conn, "INSERT INTO auditlog (user_id, aksi, deskripsi) VALUES ('$user_id', 'ubah_pengeluaran', 'Mengubah pengeluaran dengan ID $id')");
   } else {
     $error = "Gagal mengubah pengeluaran: " . mysqli_error($conn);
   }
@@ -43,6 +47,8 @@ if (isset($_GET['hapus'])) {
 
   if (mysqli_query($conn, $query)) {
     $success = "Pengeluaran berhasil dihapus";
+
+    mysqli_query($conn, "INSERT INTO auditlog (user_id, aksi, deskripsi) VALUES ('$user_id', 'hapus_pengeluaran', 'Menghapus pengeluaran dengan ID $id')");
   } else {
     $error = "Gagal menghapus pengeluaran: " . mysqli_error($conn);
   }

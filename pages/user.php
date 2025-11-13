@@ -16,6 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tambah_akun'])) {
   $query = "INSERT INTO users (email,name, password, role) VALUES ('$email', '$name', '$md5_password', '$role')";
   if (mysqli_query($conn, $query)) {
     $success = "Berhasil menambahkan akun";
+
+    mysqli_query($conn, "INSERT INTO auditlog (user_id, aksi, deskripsi) VALUES ('$_SESSION[user_id]', 'tambah_akun', 'Menambahkan akun baru dengan email $email')");
   } else {
     $error = "Gagal menambahkan akun: " .  mysqli_error($conn);
   }
@@ -37,6 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_akun'])) {
 
   if (mysqli_query($conn, $query)) {
     $success = "Akun berhasil diperbarui";
+
+    mysqli_query($conn, "INSERT INTO auditlog (user_id, aksi, deskripsi) VALUES ('$_SESSION[user_id]', 'ubah_akun', 'Memperbarui akun dengan ID $id')");
   } else {
     $error = "Gagal memperbarui akun: " . mysqli_error($conn);
   }
@@ -48,6 +52,8 @@ if (isset($_GET['hapus'])) {
 
   if (mysqli_query($conn, $query)) {
     $success = "Akun berhasil dihapus";
+
+    mysqli_query($conn, "INSERT INTO auditlog (user_id, aksi, deskripsi) VALUES ('$_SESSION[user_id]', 'hapus_akun', 'Menghapus akun dengan ID $id')");
   } else {
     $error = "Gagal menghapus akun: " . mysqli_error($conn);
   }

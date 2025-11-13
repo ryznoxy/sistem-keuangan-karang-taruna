@@ -16,6 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tambah_pemasukan'])) 
 
     if (mysqli_query($conn, $query)) {
         $success = "Pemasukan berhasil ditambahkan";
+
+        mysqli_query($conn, "INSERT INTO auditlog (user_id, aksi, deskripsi) VALUES ('$user_id', 'tambah_pemasukan', 'Menambahkan pemasukan sebesar Rp " . number_format($jumlah, 2, ',', '.') . " dari sumber $sumber pada tanggal $tanggal')");
     } else {
         $error = "Gagal menambahkan pemasukan: " . mysqli_error($conn);
     }
@@ -32,6 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_pemasukan'])) 
 
     if (mysqli_query($conn, $query)) {
         $success = "Pemasukan berhasil diubah";
+
+        mysqli_query($conn, "INSERT INTO auditlog (user_id, aksi, deskripsi) VALUES ('$user_id', 'ubah_pemasukan', 'Mengubah pemasukan ID $id menjadi sumber: $sumber, tanggal: $tanggal, jumlah: Rp " . number_format($jumlah, 2, ',', '.') . ", keterangan: $keterangan')");
     } else {
         $error = "Gagal mengubah pemasukan: " . mysqli_error($conn);
     }
@@ -44,6 +48,8 @@ if (isset($_GET['hapus'])) {
 
     if (mysqli_query($conn, $query)) {
         $success = "Pemasukan berhasil dihapus";
+
+        mysqli_query($conn, "INSERT INTO auditlog (user_id, aksi, deskripsi) VALUES ('$user_id', 'hapus_pemasukan', 'Menghapus pemasukan dengan ID $id')");
     } else {
         $error = "Gagal menghapus pemasukan: " . mysqli_error($conn);
     }
